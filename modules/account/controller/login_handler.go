@@ -34,6 +34,7 @@ func LoginController(db *gorm.DB) func(*gin.Context){
 			ctx.JSON(http.StatusUnauthorized, common.ErrUnauthorized(err))
 			return 
 		}
+
 		role := data.Loai.String()
 		
 		token, err := common.GenerateJWT(data.TenDangNhap, role)
@@ -43,6 +44,7 @@ func LoginController(db *gorm.DB) func(*gin.Context){
 			return 
 		}
 
-		ctx.JSON(http.StatusOK, common.SimpleSuccessResponseToken(token))
+		response := common.SimpleSuccessResponseToken(token) 
+		ctx.JSON(http.StatusOK, response)
 	}
 }

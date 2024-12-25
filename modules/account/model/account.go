@@ -7,8 +7,8 @@ import (
 var Entity = "Tài khoản"
 type AccountItem struct {
 	common.LoginRequest
-	NgayTao     *time.Time `json:NgayTao gorm:"column:ngay_tao"`
-	Loai 		*AccountType `json:"LoaiTaiKhoan" gorm:"column:loai"`
+	NgayTao     time.Time `json:NgayTao gorm:"column:ngay_tao;"`
+	Loai 		*AccountType `json:"LoaiTaiKhoan" gorm:"column:loai;"`
 }
 
 func(AccountItem) TableName() string{
@@ -17,7 +17,7 @@ func(AccountItem) TableName() string{
 
 type AccountCreate struct{
 	common.LoginRequest
-	Loai *AccountType `json:"LoaiTaiKhoan, omitempty" gorm:"column:loai"`
+	Loai *AccountType `json:"LoaiTaiKhoan, omitempty" gorm:"column:loai;"`
 }
 
 func(AccountCreate) TableName() string{
