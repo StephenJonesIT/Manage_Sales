@@ -32,3 +32,9 @@ type Employee struct{
 	DiaChi string `json:"DiaChi" gorm:"column:dia_chi;"`
 	SDT string `json:"SDT" gorm:"column:sdt;"`
 }
+
+type LoginRequest struct {
+	MaTaiKhoan  string `json:"MaTaiKhoan,omitempty" gorm:"column:ma_tai_khoan"`
+	TenDangNhap string `json:"TenDangNhap" gorm:"column:ten_dang_nhap"`
+	MatKhau     string `json:"MatKhau" gorm:"column:mat_khau"`
+}

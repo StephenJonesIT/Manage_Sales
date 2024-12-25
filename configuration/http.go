@@ -1,6 +1,7 @@
 package configuration
 
 import (
+	ginaccount "manage_sales/modules/account/controller"
 	ginitem "manage_sales/modules/bonsai/transport"
 	gincustomer "manage_sales/modules/customer/transport"
 	ginemployee "manage_sales/modules/employee/transport"
@@ -17,6 +18,7 @@ func CreateHttp() {
  createSupplierHttp(r)
  createCustomerHttp(r)
  createEmployeeHttp(r)
+ createAccount(r)
 
   r.GET("/ping", func(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{
@@ -79,6 +81,18 @@ func createEmployeeHttp(r *gin.Engine){
       employees.POST("", ginemployee.CreateEmployee(DB))
       employees.DELETE("/:manv", ginemployee.DeleteEmployee(DB))
       employees.PATCH("/:manv", ginemployee.UpdateEmployee(DB))
+    }
+  }
+}
+
+func createAccount(r *gin.Engine){
+  v1 := r.Group("/shop")
+  {
+    accounts := v1.Group("/account")
+    {
+      accounts.POST("/login", ginaccount.LoginController(DB))
+      accounts.GET("/:matk", ginaccount.GetAccount(DB))
+      accounts.POST("",ginaccount.CreateAccount(DB))
     }
   }
 }

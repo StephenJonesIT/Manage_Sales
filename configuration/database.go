@@ -16,7 +16,7 @@ func ConnectDatabase() {
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
-
+    
 	fmt.Println(db)
 	DB = db
 }

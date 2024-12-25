@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
+	configuration.LoadEnv()
 	configuration.ConnectDatabase()
 	configuration.CreateHttp()
 	

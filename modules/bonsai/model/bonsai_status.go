@@ -26,7 +26,7 @@ func parseStr2ItemStatus(s string) (BonsaiStatus, error) {
 		if allBonsaiStatuses[i] == s {
 			return BonsaiStatus(i), nil
 		}
-	}
+	}	
 	return BonsaiStatus(0), errors.New("invalid status string")
 }
 

@@ -26,3 +26,15 @@ func NewSuccessResponseSupplier(data, paging interface{}) *SuccessSupplier{
 func SimpleSuccessResponseSupplier(data interface{}) *SuccessSupplier{
 	return NewSuccessResponseSupplier(data, nil)
 }
+
+type SuccessToken struct{
+	Data 	interface{} `json:"token"`
+}
+
+func NewSuccessResponseToken(data interface{}) *SuccessToken{
+	return &SuccessToken{Data: data}
+}
+
+func SimpleSuccessResponseToken(data interface{}) *SuccessToken{
+	return NewSuccessResponseToken(data)
+}

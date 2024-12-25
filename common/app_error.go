@@ -81,6 +81,15 @@ func ErrIntenal(err error) *AppError{
 	)
 }
 
+func ErrUnauthorized(err error) *AppError{
+	return NewFullErrorResponse(
+		http.StatusInternalServerError,
+		err,
+		"something went wrong in the server",
+		err.Error(),
+		"invalid credentials",
+	)
+}
 func ErrCannotListEntity(entity string, err error) *AppError{
 	return NewCustomError(
 		err,
