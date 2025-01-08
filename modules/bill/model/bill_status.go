@@ -7,31 +7,32 @@ import (
 	"strings"
 )
 
-type BonsaiStatus int
+type BillStatus int
 
 const (
-	BonsaiStatusCon BonsaiStatus = iota
-	BonsaiStatusNgung
+	BillStatusDoing BillStatus = iota
+	BillStatusDone
+	BillStatusDeleted
 )
 
-var allBonsaiStatuses = [2]string{"Còn", "Ngưng"}
+var allBillStatuses = [4]string{"Doing", "Done","Cancel", "Deleted"}
 
-func (item *BonsaiStatus) String() string {
-	return allBonsaiStatuses[*item]
+func (item *BillStatus) String() string {
+	return allBillStatuses[*item]
 }
 
-func parseStr2ItemStatus(s string) (BonsaiStatus, error) {
-	for i := range allBonsaiStatuses {
-		if allBonsaiStatuses[i] == s {
-			return BonsaiStatus(i), nil
+func parseStr2ItemStatus(s string) (BillStatus, error) {
+	for i := range allBillStatuses {
+		if allBillStatuses[i] == s {
+			return BillStatus(i), nil
 		}
 	}	
-	return BonsaiStatus(0), errors.New("invalid status string")
+	return BillStatus(0), errors.New("invalid status string")
 }
 
 // Phương thức này dùng để chuyển đổi kết quả truy vấn SQL thành các giá trị ItemStatus. Nó đọc giá trị dưới dạng []byte,
 // chuyển đổi thành chuỗi và sau đó sử dụng hàm parseStr2ItemStatus để chuyển chuỗi thành ItemStatus.
-func (item *BonsaiStatus) Scan(value interface{}) error {
+func (item *BillStatus) Scan(value interface{}) error {
 	bytes, ok := value.([]byte)
 
 	if !ok {
@@ -51,7 +52,7 @@ func (item *BonsaiStatus) Scan(value interface{}) error {
 
 // Phương thức này chuyển một giá trị ItemStatus thành đại diện JSON của nó.
 // Nó trả về đại diện dạng chuỗi của giá trị ItemStatus dưới dạng một mảng byte JSON mã hóa.
-func (item *BonsaiStatus) MarshalJSON() ([]byte, error) {
+func (item *BillStatus) MarshalJSON() ([]byte, error) {
 	if item == nil {
 		return nil, nil
 	}
@@ -62,7 +63,7 @@ func (item *BonsaiStatus) MarshalJSON() ([]byte, error) {
 // Logic:
 // Nếu item là nil, trả về nil.
 // Ngược lại, trả về chuỗi đại diện của item (bằng cách gọi item.String()).
-func (item *BonsaiStatus) Value() (driver.Value, error) {
+func (item *BillStatus) Value() (driver.Value, error) {
 	if item == nil {
 		return nil, nil
 	}
@@ -75,7 +76,7 @@ func (item *BonsaiStatus) Value() (driver.Value, error) {
 // Gọi hàm parseStr2ItemStatus để chuyển chuỗi đó thành ItemStatus.
 // Nếu xảy ra lỗi trong quá trình chuyển đổi, trả về lỗi đó.
 // Ngược lại, gán giá trị ItemStatus đã chuyển đổi cho item.
-func (item *BonsaiStatus) UnmarshalJSON(data []byte) error {
+func (item *BillStatus) UnmarshalJSON(data []byte) error {
 	str := strings.ReplaceAll(string(data), "\"", "")
 	itemValue, err := parseStr2ItemStatus(str)
 

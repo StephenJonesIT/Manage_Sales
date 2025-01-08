@@ -14,7 +14,7 @@ const (
 	CustomerVip
 )
 
-var allCustomerType = [2]string{"Normal", "VIP"}
+var allCustomerType = [2]string{"Bình thường", "VIP"}
 
 func (item *CustomerType) String() string {
 	return allCustomerType[*item]

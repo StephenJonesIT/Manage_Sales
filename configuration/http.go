@@ -1,10 +1,11 @@
 package configuration
 
 import (
+	"manage_sales/middleware"
 	ginaccount "manage_sales/modules/account/controller"
-	ginitem "manage_sales/modules/bonsai/transport"
-	gincustomer "manage_sales/modules/customer/transport"
-	ginemployee "manage_sales/modules/employee/transport"
+	ginitem "manage_sales/modules/bonsai/controller"
+	gincustomer "manage_sales/modules/customer/controller"
+	ginemployee "manage_sales/modules/employee/controller"
 	ginsupplier "manage_sales/modules/suppliers/transport"
 	"net/http"
 
@@ -14,7 +15,7 @@ import (
 func CreateHttp() {
   r := gin.Default()
 
- createBonsaiHttp(r)
+ createProductHttp(r)
  createSupplierHttp(r)
  createCustomerHttp(r)
  createEmployeeHttp(r)
@@ -30,10 +31,11 @@ func CreateHttp() {
   r.Run(":1000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
 
-func createBonsaiHttp(r *gin.Engine){
+func  createProductHttp(r *gin.Engine){
       v1 := r.Group("/shop")
       {
         bonsais := v1.Group("/bonsais")
+        bonsais.Use(middleware.AuthMiddleware("admin","user"))
         {
             bonsais.POST("", ginitem.CreateItem(DB))
             bonsais.GET("", ginitem.ListItems(DB))
@@ -75,6 +77,7 @@ func createEmployeeHttp(r *gin.Engine){
   v1 := r.Group("/shop")
   {
     employees := v1.Group("/employee")
+    employees.Use(middleware.AuthMiddleware("admin"))
     {
       employees.GET("/:manv", ginemployee.GetItem(DB))
       employees.GET("", ginemployee.ListEmployees(DB))

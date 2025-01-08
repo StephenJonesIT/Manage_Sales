@@ -1,12 +1,11 @@
-package transport
+package controller
 
 import (
 	"log"
 	"manage_sales/common"
-	"manage_sales/modules/customer/biz"
-	"manage_sales/modules/customer/model"
-	"manage_sales/modules/customer/storage/mysql"
-
+	"manage_sales/modules/bonsai/biz"
+	"manage_sales/modules/bonsai/model"
+	"manage_sales/modules/bonsai/storage/mysql"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +15,7 @@ import (
 func CreateItem(db *gorm.DB) func(*gin.Context) {
 	return func(c *gin.Context) {
 
-		var data model.CustomerCreate
+		var data model.BonsaiItemCreate
 
 		if err := c.ShouldBind(&data); err != nil {
 			log.Println("Error binding data:", err)
@@ -36,15 +35,14 @@ func CreateItem(db *gorm.DB) func(*gin.Context) {
 		}
 
 		store := mysql.NewSQLStore(db)
-		business := biz.NewCreatecustomerBiz(store)
+		business := biz.NewCreateBonsaiBiz(store)
 
-		if err := business.CreateNewCustomer(c.Request.Context(), &data); err != nil {
-			c.JSON(http.StatusBadRequest, err)
-
+		if err := business.CreateNewBonsai(c.Request.Context(), &data); err != nil {
+			c.JSON(http.StatusBadRequest, common.ErrCannotCreateEntity("Product",err))
 			return
 		}
 
-		log.Println("Customer created successfully:", data)
-		c.JSON(http.StatusOK, common.SimpleSuccessResponse(data))
+		log.Println("Bonsai created successfully:", data)
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse(true))
 	}
 }

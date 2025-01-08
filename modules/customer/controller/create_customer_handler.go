@@ -1,11 +1,12 @@
-package transport
+package controller
 
 import (
 	"log"
 	"manage_sales/common"
-	"manage_sales/modules/bonsai/biz"
-	"manage_sales/modules/bonsai/model"
-	"manage_sales/modules/bonsai/storage/mysql"
+	"manage_sales/modules/customer/biz"
+	"manage_sales/modules/customer/model"
+	"manage_sales/modules/customer/storage/mysql"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +16,7 @@ import (
 func CreateItem(db *gorm.DB) func(*gin.Context) {
 	return func(c *gin.Context) {
 
-		var data model.BonsaiItemCreate
+		var data model.CustomerCreate
 
 		if err := c.ShouldBind(&data); err != nil {
 			log.Println("Error binding data:", err)
@@ -35,15 +36,15 @@ func CreateItem(db *gorm.DB) func(*gin.Context) {
 		}
 
 		store := mysql.NewSQLStore(db)
-		business := biz.NewCreateBonsaiBiz(store)
+		business := biz.NewCreatecustomerBiz(store)
 
-		if err := business.CreateNewBonsai(c.Request.Context(), &data); err != nil {
+		if err := business.CreateNewCustomer(c.Request.Context(), &data); err != nil {
 			c.JSON(http.StatusBadRequest, err)
 
 			return
 		}
 
-		log.Println("Bonsai created successfully:", data)
+		log.Println("Customer created successfully:", data)
 		c.JSON(http.StatusOK, common.SimpleSuccessResponse(data))
 	}
 }

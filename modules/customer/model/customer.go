@@ -7,7 +7,6 @@ var EntityName = "Customer"
 type Customer struct {
 	common.SQLCustomerModel
 	LoaiKH  *CustomerType `json:"LoaiKH" gorm:"column:loai_kh;`
-	NgayTao string        `json:"NgayTao" gorm:"column:ngay_tao;"`
 }
 
 func (Customer) TableName() string {

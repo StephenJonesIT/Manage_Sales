@@ -1,10 +1,10 @@
-package transport
+package controller
 
 import (
 	"fmt"
 	"manage_sales/common"
-	"manage_sales/modules/bonsai/biz"
-	"manage_sales/modules/bonsai/storage/mysql"
+	"manage_sales/modules/employee/biz"
+	"manage_sales/modules/employee/storage/mysql"
 	"net/http"
 	"strings"
 
@@ -12,18 +12,18 @@ import (
 	"gorm.io/gorm"
 )
 
-func DeleteItem(db *gorm.DB) func(*gin.Context) {
+func DeleteEmployee(db *gorm.DB) func(*gin.Context) {
 	return func(ctx *gin.Context) {
-		macc := ctx.Param("masp")
+		manv := ctx.Param("manv")
 
-		id := strings.ToUpper(macc)
+		id := strings.ToUpper(manv)
 
 		fmt.Println(id)
-		
-		store := mysql.NewSQLStore(db)
-		business := biz.NewDeleteItemBiz(store)
 
-		if err := business.DeleteItemById(ctx.Request.Context(), id); err != nil {
+		store := mysql.NewSQLStore(db)
+		business := biz.NewDeleteEmployeeBiz(store)
+
+		if err := business.DeleteEmployeeById(ctx.Request.Context(), id); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
 				"error": err,
 			})

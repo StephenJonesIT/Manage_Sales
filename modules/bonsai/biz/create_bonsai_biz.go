@@ -4,7 +4,6 @@ import (
 	"context"
 	"manage_sales/common"
 	"manage_sales/modules/bonsai/model"
-	"strings"
 )
 
 type CreateBonsaiStorage interface {
@@ -20,12 +19,6 @@ func NewCreateBonsaiBiz(storage CreateBonsaiStorage) *createBonsaiBiz {
 }
 
 func (biz *createBonsaiBiz) CreateNewBonsai(ctx context.Context, data *model.BonsaiItemCreate) error {
-
-	title := strings.TrimSpace(data.TenSP)
-
-	if title != "" {
-		return model.ErrTitleIsBlank
-	}
 
 	if err := biz.storage.CreateItem(ctx, data); err != nil {
 		return common.ErrCannotCreateEntity(model.EntityName, err)

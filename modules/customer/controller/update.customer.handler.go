@@ -1,10 +1,10 @@
-package transport
+package controller
 
 import (
 	"manage_sales/common"
-	"manage_sales/modules/bonsai/biz"
-	"manage_sales/modules/bonsai/model"
-	"manage_sales/modules/bonsai/storage/mysql"
+	"manage_sales/modules/customer/biz"
+	"manage_sales/modules/customer/model"
+	"manage_sales/modules/customer/storage/mysql"
 	"net/http"
 	"strings"
 
@@ -14,8 +14,8 @@ import (
 
 func UpdateItem(db *gorm.DB) func(*gin.Context) {
 	return func(ctx *gin.Context) {
-		var data model.BonsaiItemUpdate
-		id := strings.ToUpper(ctx.Param("masp"))
+		var data model.CustomerUpdate
+		id := strings.ToUpper(ctx.Param("makh"))
 
 		if err := ctx.ShouldBind(&data); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
@@ -26,9 +26,9 @@ func UpdateItem(db *gorm.DB) func(*gin.Context) {
 		}
 
 		store := mysql.NewSQLStore(db)
-		business := biz.NewUpdateItemBiz(store)
+		business := biz.NewUpdateCustomerBiz(store)
 
-		if err := business.UpdateItemById(ctx.Request.Context(), id, &data); err != nil {
+		if err := business.UpdateCustomerById(ctx.Request.Context(), id, &data); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
 				"error": err.Error(),
 			})

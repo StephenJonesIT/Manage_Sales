@@ -1,4 +1,4 @@
-package transport
+package controller
 
 import (
 	"manage_sales/common"

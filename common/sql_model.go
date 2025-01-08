@@ -38,3 +38,17 @@ type LoginRequest struct {
 	TenDangNhap string `json:"TenDangNhap" gorm:"column:ten_dang_nhap"`
 	MatKhau     string `json:"MatKhau" gorm:"column:mat_khau"`
 }
+
+
+
+type HoaDon struct { 
+	MaHD string `gorm:"column:mahd" json:"mahd"` 
+	TongTien float64 `gorm:"column:tong_tien" json:"tong_tien"` 
+	MaKH string `gorm:"index;column:makh" json:"makh"` 
+	MaBaoCao string `gorm:"index;column:ma_bao_cao" json:"ma_bao_cao, omitempty"` 
+	MaNV string `gorm:"index;column:manv" json:"manv"` 
+}
+
+func(HoaDon) TableName() string{
+	return "hoa_don"
+}
