@@ -13,9 +13,10 @@ const (
 	Doing ImportSlipStatus = iota
 	Done
 	Deleted
+	Cancel
 )
 
-var allGoodsReceivedNote = [3]string{"Doing", "Done", "Deleted"}
+var allGoodsReceivedNote = [4]string{"Doing", "Done", "Deleted","Cancel"}
 
 func (item *ImportSlipStatus) String() string {
 	return allGoodsReceivedNote[*item]

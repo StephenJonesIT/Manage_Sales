@@ -110,6 +110,9 @@ func createImportSlipHttp(r *gin.Engine){
       importslip := v1.Group("/goods")
       {
         importslip.GET("import_slip",ginimportslip.ListEmployees(DB))
+        importslip.GET("/:mapn",ginimportslip.GetImportSlip(DB))
+        importslip.POST("", ginimportslip.CreateImportSlip(DB))
+        importslip.DELETE("/:mapn", ginimportslip.DeleteImportSlip(DB))
       }
     }
 }
