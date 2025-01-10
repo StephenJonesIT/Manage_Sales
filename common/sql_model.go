@@ -15,6 +15,7 @@ type SQLSuplierModel struct {
 	Ho      string `json:"Ho" 	gorm:"column:ho;"`
 	Ten     string `json:"Ten" gorm:"column:ten;"`
 	DiaChi  string `json:"DiaChi" gorm:"column:dia_chi;"`
+	SDT		string `json:"SDT" gorm:"column:sdt;"`
 }
 
 type SQLCustomerModel struct{

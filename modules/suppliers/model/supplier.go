@@ -3,7 +3,6 @@ package model
 import (
 	"errors"
 	"manage_sales/common"
-	"time"
 )
 const (
 	EntityName = "Bonsai"
@@ -17,7 +16,6 @@ type SupplierItem struct {
 	common.SQLSuplierModel
 	LoaiNCC 	int    				`json:"LoaiNCC" gorm:"column:loai_ncc;"`
 	TrangThai 	*SupplierStatus  	`json:"TrangThai" gorm:"trang_thai"`
-	NgayTao 	*time.Time			`json:"NgayTao" gorm:"ngay_tao"`
 }
 
 func(SupplierItem) TableName() string{
@@ -26,6 +24,7 @@ func(SupplierItem) TableName() string{
 
 type SupplierItemCreate struct {
 	common.SQLSuplierModel
+	LoaiNCC 	int    		`json:"LoaiNCC" gorm:"column:loai_ncc;"`
 }
 
 func (SupplierItemCreate) TableName() string{
@@ -34,9 +33,10 @@ func (SupplierItemCreate) TableName() string{
 
 type SupplierItemUpdate struct {
 	Ho			string  			`json:"Ho,omitempty" gorm:"column:ho;"`
-	Ten   	  	string     			`json:"Ten,,omitempty" gorm:"column:ten;"`
-	DiaChi    	string 				`json:"DiaChi,,omitempty" gorm:"column:dia_chi;"`
-	LoaiNCC   	int     			`json:"LoaiNCC,,omitempty" gorm:"column:loai_ncc;"`
+	Ten   	  	string     			`json:"Ten,omitempty" gorm:"column:ten;"`
+	DiaChi    	string 				`json:"DiaChi,omitempty" gorm:"column:dia_chi;"`
+	LoaiNCC   	int     			`json:"LoaiNCC,omitempty" gorm:"column:loai_ncc;"`
+	SDT 		string 				`json:"SDT,omitempty" gorm:"column:sdt;"`
 }
 
 func (SupplierItemUpdate) TableName() string{

@@ -44,6 +44,6 @@ func CreateItem(db *gorm.DB) func(*gin.Context) {
 		}
 
 		log.Println("Supplier created successfully:", data)
-		c.JSON(http.StatusOK, common.SimpleSuccessResponse(data))
+		c.JSON(http.StatusOK, common.SimpleSuccessResponse(true))
 	}
 }

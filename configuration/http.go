@@ -6,6 +6,7 @@ import (
 	ginitem "manage_sales/modules/bonsai/controller"
 	gincustomer "manage_sales/modules/customer/controller"
 	ginemployee "manage_sales/modules/employee/controller"
+  ginimportslip "manage_sales/modules/import_slip/controller"
 	ginsupplier "manage_sales/modules/suppliers/transport"
 	"net/http"
 
@@ -20,6 +21,7 @@ func CreateHttp() {
  createCustomerHttp(r)
  createEmployeeHttp(r)
  createAccount(r)
+ createImportSlipHttp(r)
 
   r.GET("/ping", func(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{
@@ -50,6 +52,7 @@ func createSupplierHttp(r *gin.Engine){
     v1 := r.Group("/shop")
     {
       suppliers := v1.Group("/suppliers")
+      
       {
         suppliers.POST("", ginsupplier.CreateItem(DB))
         suppliers.GET("", ginsupplier.ListItems(DB))
@@ -64,6 +67,7 @@ func createCustomerHttp(r *gin.Engine){
    v1 := r.Group("/shop")
    {
       customers := v1.Group("/customer")
+      customers.Use(middleware.AuthMiddleware("admin","user"))
       {
         customers.POST("",gincustomer.CreateItem(DB))
         customers.GET("", gincustomer.ListItems(DB))
@@ -98,4 +102,14 @@ func createAccount(r *gin.Engine){
       accounts.POST("",ginaccount.CreateAccount(DB))
     }
   }
+}
+
+func createImportSlipHttp(r *gin.Engine){
+    v1 := r.Group("/shop")
+    {
+      importslip := v1.Group("/goods")
+      {
+        importslip.GET("import_slip",ginimportslip.ListEmployees(DB))
+      }
+    }
 }

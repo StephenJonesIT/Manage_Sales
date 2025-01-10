@@ -1,6 +1,8 @@
 package model
 
-import "manage_sales/common"
+import (
+	"manage_sales/common"
+)
 
 var EntityName = "Customer"
 

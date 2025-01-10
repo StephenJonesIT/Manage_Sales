@@ -40,6 +40,6 @@ func CreateEmployee(db *gorm.DB) func(*gin.Context){
 		}
 
 		log.Println("Employee created successfully!")
-		ctx.JSON(http.StatusOK, common.SimpleSuccessResponse(data))
+		ctx.JSON(http.StatusOK, common.SimpleSuccessResponse(true))
 	}
 }
