@@ -113,6 +113,7 @@ func createImportSlipHttp(r *gin.Engine){
         importslip.GET("/:mapn",ginimportslip.GetImportSlip(DB))
         importslip.POST("", ginimportslip.CreateImportSlip(DB))
         importslip.DELETE("/:mapn", ginimportslip.DeleteImportSlip(DB))
+        importslip.PATCH("/:mapn", ginimportslip.UpdateImportSlip(DB))
       }
     }
 }
