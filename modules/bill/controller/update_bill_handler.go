@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"log"
 	"manage_sales/common"
 	"manage_sales/modules/bill/business"
 	"manage_sales/modules/bill/model"
@@ -12,22 +11,22 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateBill(db *gorm.DB) func(*gin.Context){
+func UpdateBill(db *gorm.DB) func(*gin.Context){
 	return func(ctx *gin.Context) {
-		var newHoaDon model.CreateHoaDon
-		if err := ctx.ShouldBind(&newHoaDon); err != nil {
+		var id = ctx.Param("mapn")
+		var updateBill model.UpdateHoaDon
+
+		if err := ctx.ShouldBind(&updateBill); err != nil{
 			ctx.JSON(http.StatusBadRequest, common.ErrInvalidRequest(err))
-			return 
 		}
 
 		storage := mysql.NewBillRepository(db)
-		business := business.NewCreateBill(storage)
-		if err := business.CreateBill(ctx.Request.Context(),&newHoaDon); err != nil {
+		business := business.NewUpdateBill(storage)
+		if err:= business.UpdateBill(ctx.Request.Context(),id, &updateBill); err!=nil {
 			ctx.JSON(http.StatusInternalServerError, common.ErrIntenal(err))
 			return
 		}
 
-		log.Println("Bill created successfully!")
 		ctx.JSON(http.StatusOK, common.SimpleSuccessResponse(true))
 	}
 }

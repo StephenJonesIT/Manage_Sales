@@ -3,11 +3,13 @@ package configuration
 import (
 	"manage_sales/middleware"
 	ginaccount "manage_sales/modules/account/controller"
+	ginbill "manage_sales/modules/bill/controller"
 	ginitem "manage_sales/modules/bonsai/controller"
 	gincustomer "manage_sales/modules/customer/controller"
 	ginemployee "manage_sales/modules/employee/controller"
-  ginimportslip "manage_sales/modules/import_slip/controller"
+	ginimportslip "manage_sales/modules/import_slip/controller"
 	ginsupplier "manage_sales/modules/suppliers/transport"
+  ginreport "manage_sales/modules/report/controller"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +24,9 @@ func CreateHttp() {
  createEmployeeHttp(r)
  createAccount(r)
  createImportSlipHttp(r)
+ createBillHttp(r)
+ createReportHttp(r)
+
 
   r.GET("/ping", func(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{
@@ -100,6 +105,8 @@ func createAccount(r *gin.Engine){
       accounts.POST("/login", ginaccount.LoginController(DB))
       accounts.GET("/:matk", ginaccount.GetAccount(DB))
       accounts.POST("",ginaccount.CreateAccount(DB))
+      accounts.GET("",ginaccount.ListAccount(DB))
+      accounts.DELETE("/:matk", ginaccount.DeleteAccount(DB))
     }
   }
 }
@@ -109,11 +116,35 @@ func createImportSlipHttp(r *gin.Engine){
     {
       importslip := v1.Group("/goods")
       {
-        importslip.GET("import_slip",ginimportslip.ListEmployees(DB))
+        importslip.GET("import_slip",ginimportslip.ListImportSlip(DB))
         importslip.GET("/:mapn",ginimportslip.GetImportSlip(DB))
         importslip.POST("", ginimportslip.CreateImportSlip(DB))
         importslip.DELETE("/:mapn", ginimportslip.DeleteImportSlip(DB))
         importslip.PATCH("/:mapn", ginimportslip.UpdateImportSlip(DB))
       }
     }
+}
+
+func createBillHttp(r *gin.Engine){
+    v1 := r.Group("/shop")
+    {
+      bill := v1.Group("/bill")
+      {
+        bill.GET("",ginbill.ListBills(DB))
+        bill.GET("/:mahd",ginbill.GetBill(DB))
+        bill.POST("",ginbill.CreateBill(DB))
+        bill.DELETE("/:mahd",ginbill.DeleteBill(DB))
+        bill.PATCH("/:mahd",ginbill.UpdateBill(DB))
+      }
+    }
+}
+
+func createReportHttp(r *gin.Engine){
+  v1 := r.Group("/shop")
+  {
+    report := v1.Group("/report")
+    {
+      report.GET("",ginreport.ListReport(DB))
+    }
+  }
 }

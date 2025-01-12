@@ -10,12 +10,13 @@ import (
 type BillStatus int
 
 const (
-	BillStatusDoing BillStatus = iota
-	BillStatusDone
-	BillStatusDeleted
+	Doing BillStatus = iota
+	Done
+	Deleted
+	Cancel
 )
 
-var allBillStatuses = [4]string{"Doing", "Done","Cancel", "Deleted"}
+var allBillStatuses = [4]string{"Doing", "Done", "Deleted", "Cancel"}
 
 func (item *BillStatus) String() string {
 	return allBillStatuses[*item]
@@ -26,7 +27,7 @@ func parseStr2ItemStatus(s string) (BillStatus, error) {
 		if allBillStatuses[i] == s {
 			return BillStatus(i), nil
 		}
-	}	
+	}
 	return BillStatus(0), errors.New("invalid status string")
 }
 

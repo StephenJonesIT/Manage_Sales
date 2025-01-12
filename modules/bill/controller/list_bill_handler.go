@@ -2,16 +2,16 @@ package controller
 
 import (
 	"manage_sales/common"
-	"manage_sales/modules/import_slip/business"
-	"manage_sales/modules/import_slip/model"
-	"manage_sales/modules/import_slip/storage/mysql"
+	"manage_sales/modules/bill/business"
+	"manage_sales/modules/bill/model"
+	"manage_sales/modules/bill/storage/mysql"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
-func ListImportSlip(db *gorm.DB) func(*gin.Context) {
+func ListBills(db *gorm.DB) func(*gin.Context) {
 	return func(ctx *gin.Context) {
 
 		var paging common.Paging
@@ -33,10 +33,10 @@ func ListImportSlip(db *gorm.DB) func(*gin.Context) {
 			return
 		}
 
-		store := mysql.NewSQLStore(db)
-		business := business.NewListImportSlip(store)
+		store := mysql.NewBillRepository(db)
+		business := business.NewListBills(store)
 
-		result, err := business.ListImportSlips(ctx, &filter, &paging)
+		result, err := business.ListBills(ctx, &filter, &paging)
 
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
